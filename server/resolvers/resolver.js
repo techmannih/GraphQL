@@ -1,8 +1,14 @@
-// src/resolvers.js
+// src/resolver.js
 const resolvers = {
     Query: {
-      hello: () => 'Hello, GraphQL!'
-    }
+      hello: (_, { name }) => {
+        if (name) {
+          return `Hello, ${name}!`;
+        } else {
+          return 'Hello, GraphQL!';
+        }
+      },
+    },
   };
   
   module.exports = resolvers;
