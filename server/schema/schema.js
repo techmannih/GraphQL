@@ -9,12 +9,22 @@ const typeDefs = gql`
     user(id: ID!): User
   }
 
+  type Mutation {
+    createUser(input: CreateUserInput!): User
+  }
+
   type User {
     id: ID!
     name: String!
     age: Int!
     city: City!
     friends: [User]
+  }
+
+  input CreateUserInput {
+    name: String!
+    age: Int!
+    city: City!
   }
 
   ${enumTypeDefs}

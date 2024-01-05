@@ -19,6 +19,16 @@ const resolvers = {
       return peopleData.find(user => user.id === id);
     },
   },
+  Mutation: {
+    createUser: (_, { input }) => {
+      const newUser = {
+        id: (peopleData.length + 1).toString(), // Assuming the ID is generated here
+        ...input,
+      };
+      peopleData.push(newUser);
+      return newUser;
+    },
+  },
 };
 
 module.exports = resolvers;
