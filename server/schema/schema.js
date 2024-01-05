@@ -1,5 +1,6 @@
 // src/schema.js
 const { gql } = require("apollo-server-express");
+const { enumTypeDefs } = require("./enum");
 
 const typeDefs = gql`
   type Query {
@@ -10,8 +11,16 @@ const typeDefs = gql`
   type User {
     name: String!
     age: Int!
-    city: String!
+    city: City!
     friends: [User]
+  }
+
+  enum City {
+    NEWYORK
+    LOSANGELES
+    CHICAGO
+    SEATTLE
+    MIAMI
   }
 `;
 
