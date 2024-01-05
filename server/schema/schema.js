@@ -6,22 +6,18 @@ const typeDefs = gql`
   type Query {
     hello(name: String): String
     User: [User]
+    user(id: ID!): User
   }
 
   type User {
+    id: ID!
     name: String!
     age: Int!
     city: City!
     friends: [User]
   }
 
-  enum City {
-    NEWYORK
-    LOSANGELES
-    CHICAGO
-    SEATTLE
-    MIAMI
-  }
+  ${enumTypeDefs}
 `;
 
 module.exports = typeDefs;

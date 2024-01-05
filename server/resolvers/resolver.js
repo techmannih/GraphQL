@@ -14,6 +14,10 @@ const resolvers = {
     User: () => {
       return peopleData;
     },
+    user: (_, { id }) => {
+      // Find the user by id in the peopleData array
+      return peopleData.find(user => user.id === id);
+    },
   },
 };
 

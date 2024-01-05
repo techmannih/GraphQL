@@ -3,8 +3,8 @@ const { gql } = require("apollo-server-express");
 
 const enumTypeDefs = gql`
   enum City {
-    NEW YORK
-    LOS ANGELES
+    NEWYORK
+    LOSANGELES
     CHICAGO
     SEATTLE
     MIAMI
