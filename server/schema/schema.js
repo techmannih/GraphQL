@@ -1,6 +1,6 @@
 // src/schema.js
 const { gql } = require("apollo-server-express");
-const { enumTypeDefs } = require("./enum");
+// const { enumTypeDefs } = require("./enum");
 
 const typeDefs = gql`
   type Query {
@@ -11,24 +11,21 @@ const typeDefs = gql`
 
   type Mutation {
     createUser(input: CreateUserInput!): User
-    deleteUser(id: ID!): User
   }
 
   type User {
     id: ID!
     name: String!
     age: Int!
-    city: City!
+    city: String!
     friends: [User]
   }
 
   input CreateUserInput {
     name: String!
     age: Int!
-    city: City!
+    city: String!
   }
-
-  ${enumTypeDefs}
 `;
 
 module.exports = typeDefs;

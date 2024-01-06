@@ -1,5 +1,5 @@
-// src/resolver.js
-const { peopleData } = require("../data");
+// resolvers.js
+const User = require('../models/user');
 
 const resolvers = {
   Query: {
@@ -7,31 +7,26 @@ const resolvers = {
       if (name) {
         return `Hello, ${name}!`;
       } else {
-        return "Hello, GraphQL!";
+        return 'Hello, GraphQL!';
       }
     },
-    // Resolver for the "User" query to get all people data
-    User: () => {
-      return peopleData;
+    User: async () => {
+      return await User.find();
     },
-    user: (_, { id }) => {
-      // Find the user by id in the peopleData array
-      return peopleData.find(user => user.id === id);
+    user: async (_, { id }) => {
+      return await User.findById(id);
     },
   },
   Mutation: {
-    createUser: (_, { input }) => {
-      const newUser = {
-        id: (peopleData.length + 1).toString(), // Assuming the ID is generated here
-        ...input,
-      };
-      peopleData.push(newUser);
+    createUser: async (_, { input }) => {
+      const newUser = await User.create(input);
       return newUser;
     },
-    deleteUser: (_, { id }) => {
-      const deletedUser = peopleData.find(user => user.id === id);
-      peopleData = peopleData.filter(user => user.id !== id); // This should work now
-      return deletedUser;
+  },
+  User: {
+    friends: async (parent) => {
+      await parent.populate('friends').execPopulate();
+      return parent.friends;
     },
   },
 };
