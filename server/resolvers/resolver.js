@@ -1,59 +1,107 @@
-const {User} = require('../models/user');
-const {UserAuth} = require('../models/user'); 
+const { User } = require('../models/user');
+const { UserAuth } = require('../models/user'); 
 const bcrypt = require('bcryptjs');
 
 const resolvers = {
   Query: {
     hello: (_, { name }) => {
-      if (name) {
-        return `Hello, ${name}!`;
-      } else {
-        return 'Hello, GraphQL!';
+      try {
+        if (name) {
+          return `Hello, ${name}!`;
+        } else {
+          return 'Hello, GraphQL!';
+        }
+      } catch (error) {
+        // Handle or log the error appropriately
+        console.error('Error in hello query:', error);
+        throw new Error('An internal server error occurred.');
       }
     },
     User: async () => {
-      return await User.find();
+      try {
+        return await User.find();
+      } catch (error) {
+        // Handle or log the error appropriately
+        console.error('Error in User query:', error);
+        throw new Error('An internal server error occurred.');
+      }
     },
     user: async (_, { id }) => {
-      return await User.findById(id);
+      try {
+        return await User.findById(id);
+      } catch (error) {
+        // Handle or log the error appropriately
+        console.error('Error in user query:', error);
+        throw new Error('An internal server error occurred.');
+      }
     },
   },
   Mutation: {
     createUser: async (_, { input }) => {
-      const newUser = await User.create(input);
-      return newUser;
+      try {
+        const newUser = await User.create(input);
+        return newUser;
+      } catch (error) {
+        // Handle or log the error appropriately
+        console.error('Error in createUser mutation:', error);
+        throw new Error('An internal server error occurred.');
+      }
     },
     deleteUser: async (_, { id }) => {
-      const deletedUser = await User.findByIdAndDelete(id);
-      return deletedUser;
+      try {
+        const deletedUser = await User.findByIdAndDelete(id);
+        return deletedUser;
+      } catch (error) {
+        // Handle or log the error appropriately
+        console.error('Error in deleteUser mutation:', error);
+        throw new Error('An internal server error occurred.');
+      }
     },
     userRegister: async (_, { input }) => {
-      const hashedPassword = await bcrypt.hash(input.password, 10);
-      const newUserAuth = await UserAuth.create({
-        ...input,
-        password: hashedPassword,
-      });
-      return newUserAuth;
+      try {
+        const hashedPassword = await bcrypt.hash(input.password, 10);
+        const newUserAuth = await UserAuth.create({
+          ...input,
+          password: hashedPassword,
+        });
+        return newUserAuth;
+      } catch (error) {
+        // Handle or log the error appropriately
+        console.error('Error in userRegister mutation:', error);
+        throw new Error('An internal server error occurred.');
+      }
     },
     userLogin: async (_, { input }) => {
-      const { email, password } = input;
+      try {
+        const { email, password } = input;
 
-      // Find the user by email
-      const user = await UserAuth.findOne({ email });
+        // Find the user by email
+        const user = await UserAuth.findOne({ email });
 
-      // If user doesn't exist or password doesn't match, throw an error
-      if (!user || !(await bcrypt.compare(password, user.password))) {
-        throw new Error('Invalid email or password');
+        // If user doesn't exist or password doesn't match, throw an error
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+          throw new Error('Invalid email or password');
+        }
+
+        // Return the authenticated user
+        return user;
+      } catch (error) {
+        // Handle or log the error appropriately
+        console.error('Error in userLogin mutation:', error);
+        throw new Error('An internal server error occurred.');
       }
-
-      // Return the authenticated user
-      return user;
     },
   },
   User: {
     friends: async (parent) => {
-      await parent.populate('friends').execPopulate();
-      return parent.friends;
+      try {
+        await parent.populate('friends').execPopulate();
+        return parent.friends;
+      } catch (error) {
+        // Handle or log the error appropriately
+        console.error('Error in friends resolver:', error);
+        throw new Error('An internal server error occurred.');
+      }
     },
   },
 };
