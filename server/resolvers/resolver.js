@@ -35,6 +35,20 @@ const resolvers = {
       });
       return newUserAuth;
     },
+    userLogin: async (_, { input }) => {
+      const { email, password } = input;
+
+      // Find the user by email
+      const user = await UserAuth.findOne({ email });
+
+      // If user doesn't exist or password doesn't match, throw an error
+      if (!user || !(await bcrypt.compare(password, user.password))) {
+        throw new Error('Invalid email or password');
+      }
+
+      // Return the authenticated user
+      return user;
+    },
   },
   User: {
     friends: async (parent) => {
