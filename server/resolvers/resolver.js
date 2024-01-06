@@ -22,6 +22,10 @@ const resolvers = {
       const newUser = await User.create(input);
       return newUser;
     },
+    deleteUser: async (_, { id }) => {
+      const deletedUser = await User.findByIdAndDelete(id);
+      return deletedUser;
+    },
   },
   User: {
     friends: async (parent) => {
