@@ -1,5 +1,6 @@
-// resolvers.js
-const User = require('../models/user');
+const {User} = require('../models/user');
+const {UserAuth} = require('../models/user'); 
+const bcrypt = require('bcryptjs');
 
 const resolvers = {
   Query: {
@@ -25,6 +26,14 @@ const resolvers = {
     deleteUser: async (_, { id }) => {
       const deletedUser = await User.findByIdAndDelete(id);
       return deletedUser;
+    },
+    userRegister: async (_, { input }) => {
+      const hashedPassword = await bcrypt.hash(input.password, 10);
+      const newUserAuth = await UserAuth.create({
+        ...input,
+        password: hashedPassword,
+      });
+      return newUserAuth;
     },
   },
   User: {

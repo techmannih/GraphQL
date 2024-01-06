@@ -12,6 +12,7 @@ const typeDefs = gql`
   type Mutation {
     createUser(input: CreateUserInput!): User
     deleteUser(id: ID!): User
+    userRegister(input: registerInput!): UserAuth
   }
 
   type User {
@@ -26,6 +27,17 @@ const typeDefs = gql`
     name: String!
     age: Int!
     city: String!
+  }
+  type UserAuth {
+    id: ID!
+    fullname: String
+    email: String
+  
+  }
+  input registerInput {
+    fullname: String!
+    email: String!
+    password: String!
   }
 `;
 
