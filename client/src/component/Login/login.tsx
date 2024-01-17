@@ -8,8 +8,11 @@ const Login: React.FC<LoginProps> = () => {
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        // Implement login logic here
-        console.log('Login button clicked');
+        console.log('Login form data:', {
+            email,
+            password,
+          });
+          window.open("/home");
     };
 
     return (

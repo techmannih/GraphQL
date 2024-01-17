@@ -9,8 +9,12 @@ const Signup: React.FC<SignupProps> = () => {
 
     const handleSignup = (e: React.FormEvent) => {
         e.preventDefault();
-        // Implement signup logic here
-        console.log('Signup button clicked');
+        console.log('Signup form data:', {
+            fullname,
+            email,
+            password,
+          });
+          window.open("/");
     };
 
     return (
