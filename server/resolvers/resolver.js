@@ -28,7 +28,12 @@ const resolvers = {
     },
     user: async (_, { id }) => {
       try {
-        return await User.findById(id);
+        if(id){
+          return await User.findById(id);
+        }
+       else{
+        console.log('id is not found');
+       }
       } catch (error) {
         // Handle or log the error appropriately
         console.error('Error in user query:', error);
@@ -88,6 +93,16 @@ const resolvers = {
       } catch (error) {
         // Handle or log the error appropriately
         console.error('Error in userLogin mutation:', error);
+        throw new Error('An internal server error occurred.');
+      }
+    },
+    userDelete: async (_, { input }) => {
+      try {
+        const deletedUser = await UserAuth.findByIdAndDelete(input.id);
+        return deletedUser;
+      } catch (error) {
+        // Handle or log the error appropriately
+        console.error('Error in userDelete mutation:', error);
         throw new Error('An internal server error occurred.');
       }
     },

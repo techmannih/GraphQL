@@ -13,6 +13,7 @@ const typeDefs = gql`
     deleteUser(id: ID!): User
     userRegister(input: RegisterInput!): UserAuth
     userLogin(input: LoginInput!): UserAuth
+    userDelete(input: DeleteInput!): UserAuth
   }
 
   type User {
@@ -44,6 +45,9 @@ const typeDefs = gql`
   input LoginInput {
     email: String!
     password: String!
+  }
+  input DeleteInput {
+    id: ID!
   }
 `;
 
